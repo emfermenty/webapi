@@ -14,49 +14,29 @@ namespace api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllAuthors()
         {
-            var authors = await service.GetAllAuthors();
-            return Ok(authors);
+            return Ok(await service.GetAllAuthors());
         }
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(int id)
         {
-            var author = await service.GetAuthorByIdAsync(id);
-            if (author == null)
-            {
-                return NotFound();
-            }
-            return Ok(author);
+            return Ok(await service.GetAuthorByIdAsync(id));
         }
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] Author author)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             await service.AddAuthor(author);
             return Ok(author);
         }
         [HttpGet("delete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var author = await service.GetAuthorByIdAsync(id);
-            if (author == null)
-            {
-                return NotFound(id);
-            }
-            await service.DeleteAuthor(id);
-            return NoContent();
+            return Ok(await service.DeleteAuthor(id));
         }
         [HttpPut("edit/{id}")]
         public async Task<ActionResult> Edit(int id, [FromBody] Author author)
         {
-            if(id != author.id || !ModelState.IsValid)
-            {
-                return BadRequest();
-            }
             await service.UpdateAuthor(author);
-            return NoContent();
+            return Ok();
         }
     }
 }
