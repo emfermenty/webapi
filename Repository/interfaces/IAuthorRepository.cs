@@ -2,10 +2,10 @@
 {
     public interface IAuthorRepository
     {
-        Task AddAuthor(Author author);
-        Task<int> DeleteAuthor(int id);
-        Task<List<Author>> GetAllAuthorsAsync();
-        Task<Author?> GetAuthorByIdAsync(int id);
-        Task UpdateAuthor(Author author);
+        Task AddAuthor(Author author, CancellationToken cancellationToken);
+        Task<int> DeleteAuthor(int id, CancellationToken cancellationToken);
+        Task<List<Author>> GetAllAuthorsAsync(CancellationToken cancellationToken);
+        Task<Author?> GetAuthorByIdAsync(int id, CancellationToken cancellationToken);
+        Task UpdateAuthor(Author author, CancellationToken cancellationToken);
     }
 }

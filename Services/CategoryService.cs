@@ -10,25 +10,25 @@ namespace api.Services
         {
             this.repository = repository;
         }
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken)
         {
-            return await repository.GetAllCategoriesAsync();
+            return await repository.GetAllCategoriesAsync(cancellationToken);
         }
-        public async Task<Category?> GetCategoriesById(int id)
+        public async Task<Category?> GetCategoriesById(int id, CancellationToken cancellationToken)
         {
-            return await repository.GetCategoriesById(id);
+            return await repository.GetCategoriesById(id, cancellationToken);
         }
-        public async Task<int> DeleteCategory(int id)
+        public async Task<int> DeleteCategory(int id, CancellationToken cancellationToken)
         {
-            return await repository.DeleteCategory(id);
+            return await repository.DeleteCategory(id, cancellationToken);
         }
-        public async Task AddCategory(Category category)
+        public async Task AddCategory(Category category, CancellationToken cancellationToken)
         {
-            await repository.AddCategory(category);
+            await repository.AddCategory(category, cancellationToken);
         }
-        public async Task<int> UpdateCategory(Category category)
+        public async Task<int> UpdateCategory(Category category, CancellationToken cancellationToken)
         {
-            await repository.UpdateCategory(category);
+            await repository.UpdateCategory(category, cancellationToken);
             return category.Id;
         }
     }

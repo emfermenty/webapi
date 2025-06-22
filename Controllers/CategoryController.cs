@@ -1,10 +1,12 @@
 ﻿using api.Services.interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
     [ApiController]
-    [Route("api/categories")]  // Базовый маршрут
+    [Route("api/categories")]
+    [Authorize(Policy = "EveryOne")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService service;
@@ -14,44 +16,40 @@ namespace api.Controllers
             this.service = service;
         }
 
-        // Метод для получения всех категорий
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var categories = await service.GetAllCategoriesAsync();
+            var categories = await service.GetAllCategoriesAsync(cancellationToken);
             return Ok(categories);
         }
 
-        // Метод для получения категории по id
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
-            return Ok(await service.GetCategoriesById(id));
+            return Ok(await service.GetCategoriesById(id, cancellationToken));
         }
 
-        // Метод для создания категории
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] Category category)
+        public async Task<IActionResult> Create([FromBody] Category category, CancellationToken cancellationToken)
         {
-            await service.AddCategory(category);
+            await service.AddCategory(category, cancellationToken);
             return Ok();
         }
 
-        [HttpGet("delete/{id}")] 
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("delete/{id}")] 
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
-            return Ok(await service.GetCategoriesById(id));
+            return Ok(await service.GetCategoriesById(id, cancellationToken));
         }
 
-        // Метод для обновления категории
         [HttpPut("edit/{id}")]
-        public async Task<IActionResult> Edit(int id, [FromBody] Category category)
+        public async Task<IActionResult> Edit(int id, [FromBody] Category category, CancellationToken cancellationToken)
         {
             if (id != category.Id || !ModelState.IsValid)
             {
                 return BadRequest();
             }
-            return Ok(await service.UpdateCategory(category));
+            return Ok(await service.UpdateCategory(category, cancellationToken));
         }
     }
 }

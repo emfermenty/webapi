@@ -12,9 +12,9 @@ namespace api.Services
             this.repository = repository;
         }
 
-        public async Task<List<PostDto>> GetAllPostsAsync()
+        public async Task<List<PostDto>> GetAllPostsAsync(CancellationToken cancellationToken)
         {
-            var posts = await repository.GetAllPostsAsync();
+            var posts = await repository.GetAllPostsAsync(cancellationToken);
             return posts.Select(posts => new PostDto
             {
                 Id = posts.Id,
@@ -27,9 +27,9 @@ namespace api.Services
                     .ToList()
             }).ToList();
         }
-        public async Task<PostDto> GetPostByIdAsync(int id)
+        public async Task<PostDto> GetPostByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var post = await repository.GetPostById(id);
+            var post = await repository.GetPostById(id, cancellationToken);
             return new PostDto
             {
                 Id = post.Id,
@@ -42,9 +42,17 @@ namespace api.Services
                 .ToList()
             };
         }
-        public async Task<int> DeletePost(int id)
+        public async Task<int> DeletePost(int id, CancellationToken cancellationToken)
         {
-            return await repository.DeletePostAsync(id);
+            return await repository.DeletePostAsync(id, cancellationToken);
+        }
+        public async Task CreatePost(Post post, CancellationToken cancellationToken)
+        {
+            await repository.AddPostAsync(post, cancellationToken);
+        }
+        public async Task UpdateAsync(Post post, CancellationToken cancellationToken)
+        {
+            await repository.UpdateAsync(post, cancellationToken);
         }
     }
 }

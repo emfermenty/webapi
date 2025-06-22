@@ -10,36 +10,36 @@ namespace api.Repository
         {
             this.context = context;
         }
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken)
         {
             return await context.Categories
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
-        public async Task<Category?> GetCategoriesById(int id)
+        public async Task<Category?> GetCategoriesById(int id, CancellationToken cancellationToken)
         {
             return await context.Categories
                 .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
-        public async Task<int> DeleteCategory(int id)
+        public async Task<int> DeleteCategory(int id, CancellationToken cancellationToken)
         {
             int affectedRows = await context.Categories
                 .Where(c => c.Id == id)
-                .ExecuteDeleteAsync();
+                .ExecuteDeleteAsync(cancellationToken);
 
-            return affectedRows; // Возвращает количество удалённых записей
+            return affectedRows; 
         }
-        public async Task<int> UpdateCategory(Category category)
+        public async Task<int> UpdateCategory(Category category, CancellationToken cancellationToken)
         {
             context.Categories.Update(category);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return category.Id;
         }
-        public async Task AddCategory(Category category)
+        public async Task AddCategory(Category category, CancellationToken cancellationToken)
         {
-            context.Categories.Add(category);
-            await context.SaveChangesAsync();
+            await context.Categories.AddAsync(category, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }

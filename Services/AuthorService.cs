@@ -10,25 +10,25 @@ namespace api.Services
         {
             this.repository = repository;
         }
-        public async Task<List<Author>> GetAllAuthors()
+        public async Task<List<Author>> GetAllAuthors(CancellationToken cancellationToken)
         {
-            return await repository.GetAllAuthorsAsync();
+            return await repository.GetAllAuthorsAsync(cancellationToken);
         }
-        public async Task<Author?> GetAuthorByIdAsync(int id)
+        public async Task<Author?> GetAuthorByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await repository.GetAuthorByIdAsync(id);
+            return await repository.GetAuthorByIdAsync(id, cancellationToken);
         }
-        public async Task<int> DeleteAuthor(int id)
+        public async Task<int> DeleteAuthor(int id, CancellationToken cancellationToken)
         {
-            return await repository.DeleteAuthor(id);
+            return await repository.DeleteAuthor(id, cancellationToken);
         }
-        public async Task UpdateAuthor(Author author)
+        public async Task UpdateAuthor(Author author, CancellationToken cancellationToken)
         {
-            await repository.UpdateAuthor(author);
+            await repository.UpdateAuthor(author, cancellationToken);
         }
-        public async Task AddAuthor(Author author)
+        public async Task AddAuthor(Author author, CancellationToken cancellationToken)
         {
-            await repository.AddAuthor(author);
+            await repository.AddAuthor(author, cancellationToken);
         }
     }
 }

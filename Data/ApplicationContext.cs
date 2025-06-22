@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using api.Models;
+using Microsoft.EntityFrameworkCore;
 
 public class ApplicationContext : DbContext
 {
@@ -6,6 +7,7 @@ public class ApplicationContext : DbContext
     public DbSet<Author> Authors => Set<Author>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<PostCategory> PostCategories => Set<PostCategory>();
+    public DbSet<User> Users => Set<User>();
 
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
     {
@@ -32,13 +34,22 @@ public class ApplicationContext : DbContext
             .HasOne(p => p.Author)
             .WithMany(a => a.Posts)
             .HasForeignKey(p => p.Authorid);
+        modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(u => u.Id);
+                entity.HasIndex(u => u.UserName)
+                .IsUnique();
+
+                entity.HasIndex(u => u.Email)
+                .IsUnique();
+            });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Username=postgres;Password=master;Database=test");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Username=postgres;Password=master;Database=auth");
         }
     }
 }
