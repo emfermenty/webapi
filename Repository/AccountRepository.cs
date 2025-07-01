@@ -15,9 +15,9 @@ namespace api.Repository
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         }
-        public async Task<User> GetUserByName(string name, CancellationToken cancellationToken)
+        public async Task<User?> GetUserByName(string name, CancellationToken cancellationToken)
         {
-            User user = await context.Users
+            User? user = await context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(b => b.UserName == name, cancellationToken);
             return user;

@@ -49,7 +49,7 @@ public class ApplicationContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Username=postgres;Password=master;Database=auth");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Username=postgres;Password=master;Database=newportal");
         }
     }
 }

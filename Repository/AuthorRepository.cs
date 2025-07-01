@@ -24,16 +24,21 @@ namespace api.Repository
         }
         public async Task<int> DeleteAuthor(int id, CancellationToken cancellationToken)
         {
-            await context.Authors
-                .Where(x => x.id == id)
-                .ExecuteDeleteAsync(cancellationToken);
+            var author = await context.Authors
+                 .Where(x => x.id == id)
+                 .FirstOrDefaultAsync();
+            context.Authors.Remove(author);
             await context.SaveChangesAsync(cancellationToken);
             return id;
         }
         public async Task UpdateAuthor(Author author, CancellationToken cancellationToken)
         {
-            context.Authors.Update(author);
-            await context.SaveChangesAsync(cancellationToken);
+            var existingAuthor = await context.Authors.FindAsync(author.id);
+            if (existingAuthor != null)
+            {
+                context.Entry(existingAuthor).CurrentValues.SetValues(author);
+                await context.SaveChangesAsync(cancellationToken);
+            }
         }
         public async Task AddAuthor(Author author, CancellationToken cancellationToken)
         {

@@ -11,15 +11,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20250503132349_users")]
-    partial class users
+    [Migration("20250701095225_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "9.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
