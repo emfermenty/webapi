@@ -18,7 +18,6 @@ namespace api.Repository
                 .Include(p => p.PostCategories)
                     .ThenInclude(pc => pc.Category)
                 .ToListAsync(cancellationToken);
-
         }
         public async Task<Post?> GetPostById(int id, CancellationToken cancellationToken)
         {

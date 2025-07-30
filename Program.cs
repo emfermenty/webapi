@@ -1,12 +1,15 @@
 using api.Repository.interfaces;
 using api.Repository;
 using Microsoft.EntityFrameworkCore;
+using Scrutor;
 using api.Services.interfaces;
 using api.Services;
 using api.Controllers;
 using api.Services.Settings;
 using api.Services.Extensions;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using api.Repository.Decorators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +18,9 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.Decorate<IPostRepository, CachedPostRepository>();
 
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -26,6 +31,11 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.Configure<AuthSettings>(builder.Configuration.GetSection("AuthSettings"));
 builder.Services.AddAuth(builder.Configuration);
+
+builder.Services.AddStackExchangeRedisCache(options => {
+    options.Configuration = "localhost";
+    options.InstanceName = "local";
+});
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

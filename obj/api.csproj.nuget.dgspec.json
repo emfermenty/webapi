@@ -67,6 +67,10 @@
               "target": "Package",
               "version": "[9.0.6, )"
             },
+            "Microsoft.Extensions.Caching.StackExchangeRedis": {
+              "target": "Package",
+              "version": "[9.0.7, )"
+            },
             "Microsoft.Extensions.Identity.Core": {
               "target": "Package",
               "version": "[9.0.4, )"
@@ -91,9 +95,21 @@
               "target": "Package",
               "version": "[9.0.4, )"
             },
+            "Scrutor": {
+              "target": "Package",
+              "version": "[6.1.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
+            },
+            "xunit.assert": {
+              "target": "Package",
+              "version": "[2.9.3, )"
+            },
+            "xunit.extensibility.core": {
+              "target": "Package",
+              "version": "[2.9.3, )"
             }
           },
           "imports": [
